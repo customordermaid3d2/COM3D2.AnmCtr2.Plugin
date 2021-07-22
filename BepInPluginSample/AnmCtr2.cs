@@ -27,31 +27,23 @@ namespace COM3D2.AnmCtr2.Plugin
 
         //public static Sample sample;
 
-        public static MyLog myLog = new MyLog(MyAttribute.PLAGIN_NAME);
+        public static MyLog myLog;// = new MyLog(MyAttribute.PLAGIN_NAME);
 
-        public AnmCtr2()
-        {
-            //sample = this;
-        }
+
 
         /// <summary>
         ///  게임 실행시 한번만 실행됨
         /// </summary>
         public void Awake()
         {
-
-
+            myLog = new MyLog(MyAttribute.PLAGIN_NAME);
             myLog.LogMessage("Awake");
+
+            AnmCtr2Utill.init();
 
             // 단축키 기본값 설정
             //ShowCounter = Config.Bind("KeyboardShortcut", "KeyboardShortcut0", new BepInEx.Configuration.KeyboardShortcut(KeyCode.Alpha9, KeyCode.LeftControl));
-            AnmCtr2GUI.Install<AnmCtr2GUI>(
-                gameObject,
-                Config,
-                MyAttribute.PLAGIN_NAME,
-                "AC2",
-                COM3D2.AnmCtr2.Plugin.Properties.Resources.icon,
-                new BepInEx.Configuration.KeyboardShortcut(KeyCode.Alpha9, KeyCode.LeftControl));
+
 
             // 기어 메뉴 추가. 이 플러그인 기능 자체를 멈추려면 enabled 를 꺽어야함. 그러면 OnEnable(), OnDisable() 이 작동함
         }
@@ -77,8 +69,15 @@ namespace COM3D2.AnmCtr2.Plugin
             myLog.LogMessage("Start");
 
             //SampleGUI.Install(gameObject, Config);
-
-
+            
+            AnmCtr2GUI.Install(
+                gameObject,
+                Config,
+                MyAttribute.PLAGIN_NAME,
+                "AC2",
+                COM3D2.AnmCtr2.Plugin.Properties.Resources.icon,
+                new BepInEx.Configuration.KeyboardShortcut(KeyCode.Alpha9, KeyCode.LeftControl));
+            /**/
             //SystemShortcutAPI.AddButton(MyAttribute.PLAGIN_FULL_NAME, new Action(delegate () { enabled = !enabled; }), MyAttribute.PLAGIN_NAME, MyUtill.ExtractResource(COM3D2.AnmCtr2.Plugin.Properties.Resources.icon));
         }
 
@@ -91,40 +90,6 @@ namespace COM3D2.AnmCtr2.Plugin
             scene_name = scene.name;
         }
 
-        public void FixedUpdate()
-        {
-
-        }
-
-        public void Update()
-        {
-            //if (ShowCounter.Value.IsDown())
-            //{
-            //    MyLog.LogMessage("IsDown", ShowCounter.Value.Modifiers, ShowCounter.Value.MainKey);
-            //}
-            //if (ShowCounter.Value.IsPressed())
-            //{
-            //    MyLog.LogMessage("IsPressed", ShowCounter.Value.Modifiers, ShowCounter.Value.MainKey);
-            //}
-            //if (ShowCounter.Value.IsUp())
-            //{
-            //    MyLog.LogMessage("IsUp", ShowCounter.Value.Modifiers, ShowCounter.Value.MainKey);
-            //}
-        }
-
-        public void LateUpdate()
-        {
-
-        }
-
-        
-
-        public void OnGUI()
-        {
-          
-        }
-
-
 
         public void OnDisable()
         {
@@ -134,24 +99,6 @@ namespace COM3D2.AnmCtr2.Plugin
 
             //harmony.UnpatchSelf();// ==harmony.UnpatchAll(harmony.Id);
             //harmony.UnpatchAll(); // 정대 사용 금지. 다름 플러그인이 패치한것까지 다 풀려버림
-        }
-
-        public void Pause()
-        {
-            myLog.LogMessage("Pause");
-        }
-
-        public void Resume()
-        {
-            myLog.LogMessage("Resume");
-        }
-
-        /// <summary>
-        /// 게임 X 버튼 눌렀을때 반응
-        /// </summary>
-        public void OnApplicationQuit()
-        {
-            myLog.LogMessage("OnApplicationQuit");
         }
 
     }
