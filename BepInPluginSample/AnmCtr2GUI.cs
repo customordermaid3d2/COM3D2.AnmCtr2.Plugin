@@ -35,14 +35,6 @@ namespace COM3D2.AnmCtr2.Plugin
             set
             {
                 myWindowRect.IsOpen = value;
-                if (value)
-                {
-                    windowName = FullName;
-                }
-                else
-                {
-                    windowName = ShortName;
-                }
             }
         }
 
@@ -55,9 +47,7 @@ namespace COM3D2.AnmCtr2.Plugin
             set => IsGUIOn.Value = value;
         }
 
-        public string windowName;
-        public string FullName;
-        public string ShortName;
+
 
         // public Bitmap icon;
 
@@ -99,13 +89,10 @@ namespace COM3D2.AnmCtr2.Plugin
         public void StartAfterSetup(ConfigFile config, string FullName, string ShortName, KeyboardShortcut keyboardShortcut)
         {
             this.config = config;
-            this.windowName = FullName;
-            this.FullName = FullName;
-            this.ShortName = ShortName;
             //this.keyboardShortcut = keyboardShortcut;
             this.IsGUIOn = config.Bind("GUI", "isGUIOn", false); // 이건 베핀 설정값 지정용                                                                         
             this.ShowCounter = config.Bind("GUI", "isGUIOnKey", keyboardShortcut);// 이건 단축키
-            this.myWindowRect = new MyWindowRect(config, FullName);
+            this.myWindowRect = new MyWindowRect(config, FullName, FullName, ShortName);
         }
         /*
         /// <summary>
@@ -170,7 +157,7 @@ namespace COM3D2.AnmCtr2.Plugin
 
             GUILayout.BeginHorizontal();// 가로 정렬
             // 라벨 추가
-            GUILayout.Label(windowName, GUILayout.Height(20));
+            GUILayout.Label(myWindowRect.windowName, GUILayout.Height(20));
             // 안쓰는 공간이 생기더라도 다른 기능으로 꽉 채우지 않고 빈공간 만들기
             GUILayout.FlexibleSpace();
 

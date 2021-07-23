@@ -14,8 +14,8 @@ namespace COM3D2.AnmCtr2.Plugin
 
 		public static int seleted;
 
-		public static Animation anm;
-		public static AnimationState anmst;
+		public static Animation anm = null;
+		public static AnimationState anmst=null;
 
 		public static float time;
         public static float speed;
@@ -36,6 +36,8 @@ namespace COM3D2.AnmCtr2.Plugin
 
             if (!MaidActivePatch.maids[seleted])
             {
+				anm = null;
+				anmst = null;
 				return;
             }
 
@@ -66,7 +68,7 @@ namespace COM3D2.AnmCtr2.Plugin
 
         internal static void TimeChg(float time)
         {
-            if (anmst is null)
+            if (anmst == null)
             {
 				return;
             }
@@ -75,7 +77,7 @@ namespace COM3D2.AnmCtr2.Plugin
 
 		internal static void TimeSet()
 		{
-			if (anmst is null)
+			if (anmst == null)
 			{
 				return;
 			}
