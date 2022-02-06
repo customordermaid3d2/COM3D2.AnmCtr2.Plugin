@@ -122,5 +122,27 @@ namespace COM3D2.AnmCtr2.Plugin
                 MaidChg(seleted);
             }
         }
+        // public AnimationState LoadAnime(string tag, AFileSystemBase fileSystem, string filename, bool additive, bool loop)
+        [HarmonyPatch(typeof(TBody), "LoadAnime", typeof(string), typeof(AFileSystemBase), typeof(string), typeof(bool), typeof(bool))]
+        [HarmonyPostfix]
+        public static void LoadAnime(TBody __instance, string tag, AFileSystemBase fileSystem, string filename, bool additive, bool loop)
+        {
+            AnmCtr2.myLog.LogInfo($"LoadAnime , {tag}, {filename}, {additive}, {loop}");
+            if (__instance.m_Animation == anm)
+            {
+                MaidChg(seleted);
+            }
+        }
+
+        internal static void Stop()
+        {
+            anmst.speed = 0;
+        }
+
+        internal static void Play()
+        {
+            anmst.speed = 1;
+            
+        }
     }
 }

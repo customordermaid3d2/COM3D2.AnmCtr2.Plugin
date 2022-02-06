@@ -247,6 +247,13 @@ public virtual void Awake()
                             GUI.changed = false;
                         }
 
+                        GUILayout.BeginHorizontal();// 가로 정렬
+
+                        if (GUILayout.Button("Play")) { AnmCtr2Utill.Play(); }
+                        if (GUILayout.Button("Stop")) { AnmCtr2Utill.Stop(); }
+
+                        GUILayout.EndHorizontal();// 가로 정렬 끝
+
                         GUILayout.Label("WrapMode select");
                         // 여기는 출력된 메이드들 이름만 가져옴
                         // seleted 가 이름 위치 번호만 가져온건데
