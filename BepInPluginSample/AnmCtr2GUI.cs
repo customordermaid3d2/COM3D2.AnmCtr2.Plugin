@@ -13,9 +13,9 @@ namespace COM3D2.AnmCtr2.Plugin
 {
     class AnmCtr2GUI : MonoBehaviour// : LillyUtill.MyGUI
     {
-        private int seleted, seleted2;
+        private int seleted, anm;
         private float time;
-        private int seleted3;
+        private int wrap;
 
         public ConfigFile config;
 
@@ -47,7 +47,7 @@ namespace COM3D2.AnmCtr2.Plugin
             set => IsGUIOn.Value = value;
         }
 
-
+        public Maid maid = null;
 
         // public Bitmap icon;
 
@@ -66,6 +66,7 @@ namespace COM3D2.AnmCtr2.Plugin
             var instance = parent.GetComponent<AnmCtr2GUI>();
             if (instance == null)
             {
+
                 instance = parent.AddComponent<AnmCtr2GUI>();
                 //calls Start() on the object and initializes it.
 
@@ -93,17 +94,36 @@ namespace COM3D2.AnmCtr2.Plugin
             this.IsGUIOn = config.Bind("GUI", "isGUIOn", false); // 이건 베핀 설정값 지정용                                                                         
             this.ShowCounter = config.Bind("GUI", "isGUIOnKey", keyboardShortcut);// 이건 단축키
             this.myWindowRect = new MyWindowRect(config, FullName, FullName, ShortName);
+
+            MaidActivePatch.setActiveMaid2 += setActiveMaid2;
+            MaidActivePatch.deactivateMaid += setActiveMaid2;
         }
-        /*
-        /// <summary>
-        /// 아까 부모 PresetExpresetXmlLoader 에서 봤던 로직이랑 같음
-        /// </summary>
-        public virtual void Awake()
+
+        // 로딩중에 사용하면 안됨
+        private void setActiveMaid2(int maidn)
         {
-            //MyLog.LogMessage("PresetExpresetXmlLoaderGUI.OnEnable");
+            if (seleted == maidn)
+            {
+                maid = MaidActivePatch.GetMaid(maidn);
+
+                AnmCtr2Utill.MaidChg(seleted);
+
+                //AnmCtr2Utill.AnmChg(seleted2);
+                //AnmCtr2Utill.TimeChg(time);
+                //AnmCtr2Utill.WrapModeChg(seleted3);
+            }
         }
-        // 이렇게 해서 플러그인 실행 직후는 작동 완료
-        */
+
+        /*
+/// <summary>
+/// 아까 부모 PresetExpresetXmlLoader 에서 봤던 로직이랑 같음
+/// </summary>
+public virtual void Awake()
+{
+   //MyLog.LogMessage("PresetExpresetXmlLoaderGUI.OnEnable");
+}
+// 이렇게 해서 플러그인 실행 직후는 작동 완료
+*/
         public virtual void OnEnable()
         {
             //MyLog.LogMessage("PresetExpresetXmlLoaderGUI.OnEnable");
@@ -122,7 +142,7 @@ namespace COM3D2.AnmCtr2.Plugin
             myWindowRect.save();// 장면 이동시 GUI 창 위치 저장
         }
         */
-        
+
 
         public void Update()
         {
@@ -171,7 +191,7 @@ namespace COM3D2.AnmCtr2.Plugin
             }
             else
             {
-                scrollPosition = GUILayout.BeginScrollView(scrollPosition,false,true );
+                scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, true);
 
                 //base.WindowFunctionBody(id);
                 GUI.changed = false;
@@ -179,47 +199,72 @@ namespace COM3D2.AnmCtr2.Plugin
                 GUILayout.Label("maid select");
                 // 여기는 출력된 메이드들 이름만 가져옴
                 // seleted 가 이름 위치 번호만 가져온건데
-                seleted = GUILayout.SelectionGrid(seleted, MaidActivePatch.maidNames, 3, GUILayout.Width(265));
-
-                if (GUI.changed)
+                if (MaidActivePatch.maidNames.Length > 0)
                 {
-                    AnmCtr2Utill.MaidChg(seleted);
-                    GUI.changed = false;
-                }
+                    //seleted = GUILayout.SelectionGrid(seleted, MaidActivePatch.maidNames, 3, GUILayout.Width(265));
+                    seleted = MaidActivePatch.SelectionGrid3(seleted, 3, 265, false);
+                    if (GUI.changed)
+                    {
+                        maid = MaidActivePatch.GetMaid(seleted);
+                        AnmCtr2Utill.MaidChg(seleted);
+                        anm = 0;
+                        //anmst.wrapMode = (WrapMode)Enum.Parse(typeof(WrapMode), wrapModeNm[seleted3]);
+                        //wrap = Array.FindIndex(AnmCtr2Utill.wrapModeNm, i => i == AnmCtr2Utill.wrapMode.ToString());
+                        wrap = AnmCtr2Utill.wrap;
+                        //wrap= AnmCtr2Utill.wrapModeNm.indexof( AnmCtr2Utill.wrapMode.ToString());
+                        GUI.changed = false;
+                    }
 
-                GUILayout.Label("Animation select");
-                // 여기는 출력된 메이드들 이름만 가져옴
-                // seleted 가 이름 위치 번호만 가져온건데
-                seleted2 = GUILayout.SelectionGrid(seleted2, AnmCtr2Utill.anmNm, 1, GUILayout.Width(265));
+                    if (!maid )
+                    {
+                        GUILayout.Label("maid null or anmNm.Length==0");
+                        if (maid)
+                        {
+                            AnmCtr2Utill.MaidChg(seleted);
+                        }
+                    }
+                    else
+                    {
+                        GUILayout.Label("Animation select");
+                        // 여기는 출력된 메이드들 이름만 가져옴
+                        // seleted 가 이름 위치 번호만 가져온건데
 
-                if (GUI.changed)
-                {
-                    AnmCtr2Utill.AnmChg(seleted2);
-                    GUI.changed = false;
-                }
+                        anm = GUILayout.SelectionGrid(anm, AnmCtr2Utill.anmNm, 1, GUILayout.Width(265));
 
-                GUILayout.Label("time");
-                time = GUILayout.HorizontalSlider(AnmCtr2Utill.time, 0, AnmCtr2Utill.length, GUILayout.Width(265));
+                        if (GUI.changed)
+                        {
+                            AnmCtr2Utill.AnmChg(anm);
+                            GUI.changed = false;
+                        }
 
-                if (GUI.changed)
-                {
-                    AnmCtr2Utill.TimeChg(time);
-                    GUI.changed = false;
-                }
+                        GUILayout.Label($"time , {AnmCtr2Utill.time} , {AnmCtr2Utill.length}");
+                        //time = GUILayout.HorizontalSlider(AnmCtr2Utill.time, 0, AnmCtr2Utill.length, GUILayout.Width(265));
+                        time = GUILayout.HorizontalSlider(AnmCtr2Utill.time % 1f, 0, 1, GUILayout.Width(265));
 
-                GUILayout.Label("WrapMode select");
-                // 여기는 출력된 메이드들 이름만 가져옴
-                // seleted 가 이름 위치 번호만 가져온건데
-                seleted3 = GUILayout.SelectionGrid(seleted3, AnmCtr2Utill.wrapModeNm, 2, GUILayout.Width(265));
+                        if (GUI.changed)
+                        {
+                            AnmCtr2Utill.TimeChg(time);
+                            GUI.changed = false;
+                        }
 
-                if (GUI.changed)
-                {
-                    AnmCtr2Utill.WrapModeChg(seleted3);
-                    GUI.changed = false;
+                        GUILayout.Label("WrapMode select");
+                        // 여기는 출력된 메이드들 이름만 가져옴
+                        // seleted 가 이름 위치 번호만 가져온건데
+                        wrap = GUILayout.SelectionGrid(wrap, AnmCtr2Utill.wrapModeNm, 2, GUILayout.Width(265));
+
+                        if (GUI.changed)
+                        {
+                            AnmCtr2Utill.WrapModeChg(wrap);
+                            GUI.changed = false;
+                        }
+
+                    }
+
                 }
 
 
                 GUILayout.EndScrollView();
+
             }
             GUI.enabled = true;
             GUI.DragWindow(); // 창 드레그 가능하게 해줌. 마지막에만 넣어야함

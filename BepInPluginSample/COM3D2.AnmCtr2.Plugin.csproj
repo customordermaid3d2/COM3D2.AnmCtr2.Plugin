@@ -37,12 +37,21 @@
       <HintPath>..\packages\HarmonyX.2.5.5\lib\net35\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>H:\COM3D2\COM3D2x64_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>H:\COM3D2\COM3D2x64_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="BepInEx, Version=5.4.17.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\BepInEx.BaseLib.5.4.17\lib\net35\BepInEx.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="COM3D2.API">
       <HintPath>H:\COM3D2\BepinEx\plugins\COM3D2.API.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="COM3D2.LillyUtill">
       <HintPath>C:\Downloads\plugin\COM3D2.LillyUtill.dll</HintPath>
@@ -115,10 +124,14 @@
     <None Include="packages.config" />
     <None Include="Resources\icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="H:\COM3D2\COM3D2x64_Data\Managed\Assembly-CSharp-firstpass.dll" />
+    <Analyzer Include="H:\COM3D2\COM3D2x64_Data\Managed\Assembly-CSharp.dll" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)*.dll" "C:\Downloads\plugin"
-copy "$(TargetDir)*.dll" "F:\COM3D2\BepinEx\plugins"</PostBuildEvent>
+copy "$(TargetDir)*.dll" "h:\COM3D2\BepinEx\plugins"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\BepInEx.Core.5.4.17\build\BepInEx.Core.targets" Condition="Exists('..\packages\BepInEx.Core.5.4.17\build\BepInEx.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

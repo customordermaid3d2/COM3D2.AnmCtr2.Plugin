@@ -22,7 +22,7 @@ namespace COM3D2.AnmCtr2.Plugin
         // 단축키 설정파일로 연동
         //private ConfigEntry<BepInEx.Configuration.KeyboardShortcut> ShowCounter;
 
-        //Harmony harmony;
+        Harmony harmony;
 
         //public static Sample sample;
 
@@ -48,17 +48,17 @@ namespace COM3D2.AnmCtr2.Plugin
         }
 
 
-        /*
         public void OnEnable()
         {
             myLog.LogMessage("OnEnable");
 
-            SceneManager.sceneLoaded += this.OnSceneLoaded;
+          //  SceneManager.sceneLoaded += this.OnSceneLoaded;
 
             // 하모니 패치
-            //harmony = Harmony.CreateAndPatchAll(typeof(SamplePatch));
+            harmony = Harmony.CreateAndPatchAll(typeof(AnmCtr2Utill));
 
         }
+        /*
         */
         /// <summary>
         /// 게임 실행시 한번만 실행됨
@@ -89,16 +89,16 @@ namespace COM3D2.AnmCtr2.Plugin
             scene_name = scene.name;
         }
 
+        */
         public void OnDisable()
         {
             myLog.LogMessage("OnDisable");
 
-            SceneManager.sceneLoaded -= this.OnSceneLoaded;
+          //  SceneManager.sceneLoaded -= this.OnSceneLoaded;
 
-            //harmony.UnpatchSelf();// ==harmony.UnpatchAll(harmony.Id);
+            harmony.UnpatchSelf();// ==harmony.UnpatchAll(harmony.Id);
             //harmony.UnpatchAll(); // 정대 사용 금지. 다름 플러그인이 패치한것까지 다 풀려버림
         }
-        */
 
     }
 }
