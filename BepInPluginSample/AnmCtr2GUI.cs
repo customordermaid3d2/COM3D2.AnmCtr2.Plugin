@@ -108,8 +108,8 @@ namespace COM3D2.AnmCtr2.Plugin
         {
             //MyLog.LogMessage("PresetExpresetXmlLoaderGUI.OnEnable");
 
-            myWindowRect?.load();// 이건 창 위치 설정하는건데 소스 열어서  다로 공부해볼것
-            SceneManager.sceneLoaded += this.OnSceneLoaded;
+            myWindowRect?.load();// 이건 창 위치 설정하는건데 소스 열어서 따로 공부해볼것
+            //SceneManager.sceneLoaded += this.OnSceneLoaded;
         }
         /*
         public virtual void Start()
@@ -117,12 +117,12 @@ namespace COM3D2.AnmCtr2.Plugin
             //MyLog.LogMessage("PresetExpresetXmlLoaderGUI.Start");
             //myWindowRect = new MyWindowRect(config, windowName);
         }
-        */
         public virtual void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             myWindowRect.save();// 장면 이동시 GUI 창 위치 저장
         }
-
+        */
+        
 
         public void Update()
         {
@@ -225,7 +225,7 @@ namespace COM3D2.AnmCtr2.Plugin
             GUI.DragWindow(); // 창 드레그 가능하게 해줌. 마지막에만 넣어야함
         }
 
-
+        /*
         /// <summary>
         /// 게임 X 버튼 눌렀을때 반응
         /// </summary>
@@ -243,5 +243,6 @@ namespace COM3D2.AnmCtr2.Plugin
             myWindowRect?.save();
             //SceneManager.sceneLoaded -= this.OnSceneLoaded;
         }
+        */
     }
 }

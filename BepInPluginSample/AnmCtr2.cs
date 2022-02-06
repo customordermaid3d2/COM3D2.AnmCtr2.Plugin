@@ -1,7 +1,6 @@
 ﻿using BepInEx;
 using BepInEx.Configuration;
 using COM3D2.LillyUtill;
-using COM3D2API;
 using HarmonyLib;
 using Newtonsoft.Json;
 using System;
@@ -49,7 +48,7 @@ namespace COM3D2.AnmCtr2.Plugin
         }
 
 
-
+        /*
         public void OnEnable()
         {
             myLog.LogMessage("OnEnable");
@@ -60,7 +59,7 @@ namespace COM3D2.AnmCtr2.Plugin
             //harmony = Harmony.CreateAndPatchAll(typeof(SamplePatch));
 
         }
-
+        */
         /// <summary>
         /// 게임 실행시 한번만 실행됨
         /// </summary>
@@ -81,15 +80,14 @@ namespace COM3D2.AnmCtr2.Plugin
             //SystemShortcutAPI.AddButton(MyAttribute.PLAGIN_FULL_NAME, new Action(delegate () { enabled = !enabled; }), MyAttribute.PLAGIN_NAME, MyUtill.ExtractResource(COM3D2.AnmCtr2.Plugin.Properties.Resources.icon));
         }
 
-        public string scene_name = string.Empty;
-
+        /*
+        //public string scene_name = string.Empty;
         public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             myLog.LogMessage("OnSceneLoaded", scene.name, scene.buildIndex);
             //  scene.buildIndex 는 쓰지 말자 제발
             scene_name = scene.name;
         }
-
 
         public void OnDisable()
         {
@@ -100,6 +98,7 @@ namespace COM3D2.AnmCtr2.Plugin
             //harmony.UnpatchSelf();// ==harmony.UnpatchAll(harmony.Id);
             //harmony.UnpatchAll(); // 정대 사용 금지. 다름 플러그인이 패치한것까지 다 풀려버림
         }
+        */
 
     }
 }
