@@ -1,5 +1,6 @@
-﻿using COM3D2.LillyUtill;
+﻿
 using HarmonyLib;
+using LillyUtill.MyMaidActive;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,17 +41,17 @@ namespace COM3D2.AnmCtr2.Plugin
         {
             AnmCtr2Utill.seleted = seleted;
 
-            maid = MaidActivePatch.GetMaid(seleted);
+            maid = MaidActiveUtill.GetMaid(seleted);
 
             if (!maid || !maid.body0.m_Bones )
             {
-                AnmCtr2.myLog.LogWarning("MaidChg null");
+                //AnmCtr2.myLog.LogInfo("MaidChg null");
                 anm = null;
                 anmst = null;
                 anmNm =  new string[] { };
                 return;
             }
-            AnmCtr2.myLog.LogInfo("MaidChg set");
+            //AnmCtr2.myLog.LogInfo("MaidChg set");
 
             anm = maid.GetAnimation();
             IEnumerator enumerator = anm.GetEnumerator();
@@ -116,7 +117,7 @@ namespace COM3D2.AnmCtr2.Plugin
         [HarmonyPostfix]
         public static void AddClip(Animation __instance, AnimationClip clip, string newName, int firstFrame, int lastFrame, bool addLoopFrame)
         {
-            AnmCtr2.myLog.LogInfo($"AddClip , {newName}, {firstFrame}, {lastFrame}, {addLoopFrame}");
+            AnmCtr2.log.LogInfo($"AddClip , {newName}, {firstFrame}, {lastFrame}, {addLoopFrame}");
             if (__instance == anm)
             {
                 MaidChg(seleted);
@@ -127,7 +128,7 @@ namespace COM3D2.AnmCtr2.Plugin
         [HarmonyPostfix]
         public static void LoadAnime(TBody __instance, string tag, AFileSystemBase fileSystem, string filename, bool additive, bool loop)
         {
-            AnmCtr2.myLog.LogInfo($"LoadAnime , {tag}, {filename}, {additive}, {loop}");
+            AnmCtr2.log.LogInfo($"LoadAnime , {tag}, {filename}, {additive}, {loop}");
             if (__instance.m_Animation == anm)
             {
                 MaidChg(seleted);

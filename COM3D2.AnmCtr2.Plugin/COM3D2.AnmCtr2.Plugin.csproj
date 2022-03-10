@@ -53,10 +53,6 @@
       <HintPath>H:\COM3D2\BepinEx\plugins\COM3D2.API.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="COM3D2.LillyUtill">
-      <HintPath>C:\Downloads\plugin\COM3D2.LillyUtill.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="Mono.Cecil, Version=0.10.4.0, Culture=neutral, PublicKeyToken=50cebf1cceb9d05e, processorArchitecture=MSIL">
       <HintPath>..\packages\Mono.Cecil.0.10.4\lib\net35\Mono.Cecil.dll</HintPath>
       <Private>False</Private>
@@ -105,7 +101,6 @@
   <ItemGroup>
     <Compile Include="AnmCtr2GUI.cs" />
     <Compile Include="AnmCtr2Utill.cs" />
-    <Compile Include="MyAttribute.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -130,8 +125,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)*.dll" "C:\Downloads\plugin"
-copy "$(TargetDir)*.dll" "h:\COM3D2\BepinEx\plugins"</PostBuildEvent>
+    <PostBuildEvent>copy "$(targetpath)" "h:\COM3D2\BepInEx\plugins" 
+copy "$(targetpath)" "h:\COM3D2-test\BepInEx\plugins"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\BepInEx.Core.5.4.17\build\BepInEx.Core.targets" Condition="Exists('..\packages\BepInEx.Core.5.4.17\build\BepInEx.Core.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

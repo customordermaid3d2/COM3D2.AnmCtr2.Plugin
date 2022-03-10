@@ -1,5 +1,5 @@
 ﻿using BepInEx.Configuration;
-using COM3D2.LillyUtill;
+
 using COM3D2API;
 using System;
 using System.Collections.Generic;
@@ -20,32 +20,11 @@ namespace COM3D2.AnmCtr2.Plugin
         public ConfigFile config;
 
         public ConfigEntry<BepInEx.Configuration.KeyboardShortcut> ShowCounter;
-        //private KeyboardShortcut keyboardShortcut;
-
-        public int windowId = new System.Random().Next();
 
         private Vector2 scrollPosition;
 
         // 위치 저장용 테스트 json
-        public MyWindowRect myWindowRect;
-
-        public bool IsOpen
-        {
-            get => myWindowRect.IsOpen;
-            set
-            {
-                myWindowRect.IsOpen = value;
-            }
-        }
-
-        // GUI ON OFF 설정파일로 저장
-        private ConfigEntry<bool> IsGUIOn;
-
-        public bool isGUIOn
-        {
-            get => IsGUIOn.Value;
-            set => IsGUIOn.Value = value;
-        }
+        public WindowRectUtill myWindowRect;
 
         public Maid maid = null;
 
