@@ -51,6 +51,7 @@ namespace COM3D2.AnmCtr2.Plugin
         {
             log = Logger;
             log.LogMessage("Awake");
+            log.LogMessage("https://github.com/customordermaid3d2/COM3D2.AnmCtr2.Plugin");
 
             this.myWindowRect = new WindowRectUtill(Config, MyAttribute.PLAGIN_FULL_NAME, MyAttribute.PLAGIN_NAME, "AC2");
 
