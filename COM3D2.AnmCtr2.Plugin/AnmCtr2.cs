@@ -19,7 +19,7 @@ namespace COM3D2.AnmCtr2.Plugin
     class MyAttribute
     {
         public const string PLAGIN_NAME = "AnmCtr2";
-        public const string PLAGIN_VERSION = "22.3.10";
+        public const string PLAGIN_VERSION = "22.3.18";
         public const string PLAGIN_FULL_NAME = "COM3D2.AnmCtr2.Plugin";
     }
 
@@ -39,8 +39,8 @@ namespace COM3D2.AnmCtr2.Plugin
 
         //Maid maid = null;
 
-        static int  anm;
-        float time;
+       
+        //float time;
         int wrap;
         string[] type = new string[] { "one", "all" };
 
@@ -107,7 +107,7 @@ namespace COM3D2.AnmCtr2.Plugin
 
         private void Update()
         {
-            AnmCtr2Utill.TimeSet();
+            AnmCtr2Utill.TimeChg();
         }
 
         private void OnGUI()
@@ -158,7 +158,7 @@ namespace COM3D2.AnmCtr2.Plugin
                     {
                         //maid = MaidActiveUtill.GetMaid(seleted);
                         AnmCtr2Utill.MaidChg();
-                        anm = 0;
+
                         //anmst.wrapMode = (WrapMode)Enum.Parse(typeof(WrapMode), wrapModeNm[seleted3]);
                         //wrap = Array.FindIndex(AnmCtr2Utill.wrapModeNm, i => i == AnmCtr2Utill.wrapMode.ToString());
                         wrap = AnmCtr2Utill.wrap;
@@ -176,21 +176,21 @@ namespace COM3D2.AnmCtr2.Plugin
                         // 여기는 출력된 메이드들 이름만 가져옴
                         // seleted 가 이름 위치 번호만 가져온건데
 
-                        anm = GUILayout.SelectionGrid(anm, AnmCtr2Utill.anmNm, 1, GUILayout.Width(265));
+                        AnmCtr2Utill.seletedAnm = GUILayout.SelectionGrid(AnmCtr2Utill.seletedAnm, AnmCtr2Utill.anmNm, 1, GUILayout.Width(265));
 
                         if (GUI.changed)
                         {
-                            AnmCtr2Utill.AnmChg(anm);
+                            AnmCtr2Utill.AnmChg();
                             GUI.changed = false;
                         }
 
                         GUILayout.Label($"time , {AnmCtr2Utill.time} , {AnmCtr2Utill.length}");
                         //time = GUILayout.HorizontalSlider(AnmCtr2Utill.time, 0, AnmCtr2Utill.length, GUILayout.Width(265));
-                        time = GUILayout.HorizontalSlider(AnmCtr2Utill.time % 1f, 0, 1, GUILayout.Width(265));
+                        AnmCtr2Utill.time = GUILayout.HorizontalSlider(AnmCtr2Utill.time % 1f, 0, 1, GUILayout.Width(265));
 
                         if (GUI.changed)
                         {
-                            AnmCtr2Utill.TimeChg(time);
+                            AnmCtr2Utill.TimeSet();
                             GUI.changed = false;
                         }
 

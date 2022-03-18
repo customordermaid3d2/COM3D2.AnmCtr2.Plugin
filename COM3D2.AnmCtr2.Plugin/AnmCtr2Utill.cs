@@ -16,6 +16,7 @@ namespace COM3D2.AnmCtr2.Plugin
 
         public static int seleted;
         public static int wrap;
+        public static int seletedAnm;
 
         public static Animation anm = null;
         public static AnimationState anmst = null;
@@ -64,10 +65,10 @@ namespace COM3D2.AnmCtr2.Plugin
             anmNm = l.ToArray();
 
 
-            AnmCtr2Utill.AnmChg(0);
+            AnmCtr2Utill.AnmChg();
         }
 
-        internal static void AnmChg(int seleted2)
+        internal static void AnmChg()
         {
             try
             {
@@ -76,7 +77,11 @@ namespace COM3D2.AnmCtr2.Plugin
                     anmst = null;
                     return;
                 }
-                anmst = anm[anmNm[seleted2]];
+                if (anmNm.Length<=seletedAnm)
+                {
+                    seletedAnm = 0;
+                }
+                anmst = anm[anmNm[seletedAnm]];
                 // https://docs.unity3d.com/kr/530/ScriptReference/AnimationState-time.html
                 // 사용 금지. 재생시간 값 이상으로 무한대로 가버림. 즉 얼마간 방치되있는지 확인 용도
                 //time = anmst.time ;
@@ -92,9 +97,8 @@ namespace COM3D2.AnmCtr2.Plugin
             }
         }
 
-        internal static void TimeChg(float time)
+        internal static void TimeSet()
         {
-            AnmCtr2Utill.time = time;
             if (anmst == null)
             {
                 return;
@@ -102,7 +106,7 @@ namespace COM3D2.AnmCtr2.Plugin
             anmst.normalizedTime = time;
         }
 
-        internal static void TimeSet()
+        internal static void TimeChg()
         {
             if (anmst == null)
             {
