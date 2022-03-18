@@ -37,9 +37,9 @@ namespace COM3D2.AnmCtr2.Plugin
         public WindowRectUtill myWindowRect;
         Vector2 scrollPosition;
 
-        Maid maid = null;
+        //Maid maid = null;
 
-        int seleted, anm;
+        static int  anm;
         float time;
         int wrap;
         string[] type = new string[] { "one", "all" };
@@ -64,11 +64,11 @@ namespace COM3D2.AnmCtr2.Plugin
 
         private void setActiveMaid2(int maidn)
         {
-            if (seleted == maidn)
+            if (AnmCtr2Utill.seleted == maidn)
             {
-                maid = MaidActiveUtill.GetMaid(maidn);
+                //maid = MaidActiveUtill.GetMaid(maidn);
 
-                AnmCtr2Utill.MaidChg(seleted);
+                AnmCtr2Utill.MaidChg();
             }
         }
 
@@ -103,6 +103,11 @@ namespace COM3D2.AnmCtr2.Plugin
                 , MyAttribute.PLAGIN_FULL_NAME // 표시될 툴팁 내용                               
             , Properties.Resources.icon);// 표시될 아이콘
                                              // 아이콘은 이렇게 추가함
+        }
+
+        private void Update()
+        {
+            AnmCtr2Utill.TimeSet();
         }
 
         private void OnGUI()
@@ -148,11 +153,11 @@ namespace COM3D2.AnmCtr2.Plugin
                 if (MaidActiveUtill.maidNames.Length > 0)
                 {
                     //seleted = GUILayout.SelectionGrid(seleted, MaidActivePatch.maidNames, 3, GUILayout.Width(265));
-                    seleted = MaidActiveUtill.SelectionGrid(seleted);
+                    AnmCtr2Utill.seleted = MaidActiveUtill.SelectionGrid(AnmCtr2Utill.seleted);
                     if (GUI.changed)
                     {
-                        maid = MaidActiveUtill.GetMaid(seleted);
-                        AnmCtr2Utill.MaidChg(seleted);
+                        //maid = MaidActiveUtill.GetMaid(seleted);
+                        AnmCtr2Utill.MaidChg();
                         anm = 0;
                         //anmst.wrapMode = (WrapMode)Enum.Parse(typeof(WrapMode), wrapModeNm[seleted3]);
                         //wrap = Array.FindIndex(AnmCtr2Utill.wrapModeNm, i => i == AnmCtr2Utill.wrapMode.ToString());
@@ -161,13 +166,9 @@ namespace COM3D2.AnmCtr2.Plugin
                         GUI.changed = false;
                     }
 
-                    if (!maid)
+                    if (!AnmCtr2Utill.maid)
                     {
                         GUILayout.Label("maid null or anmNm.Length==0");
-                        if (maid)
-                        {
-                            AnmCtr2Utill.MaidChg(seleted);
-                        }
                     }
                     else
                     {
