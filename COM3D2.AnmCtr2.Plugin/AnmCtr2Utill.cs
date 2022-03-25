@@ -1,4 +1,5 @@
 ﻿
+using BepInEx.Configuration;
 using HarmonyLib;
 using LillyUtill.MyMaidActive;
 using System;
@@ -31,10 +32,14 @@ namespace COM3D2.AnmCtr2.Plugin
 
         public static Maid maid = null;
 
-        internal static void init()
+        public static ConfigEntry<bool> isLog;
+
+        internal static void init(BepInEx.Logging.ManualLogSource logger, ConfigFile config)
         {
             wrapModeNm = Enum.GetNames(typeof(WrapMode));
             wrapModes = (WrapMode[])Enum.GetValues(typeof(WrapMode));
+
+            isLog = config.Bind("Utill", "isLog", false);
         }
 
         public static void MaidChg()
@@ -132,7 +137,11 @@ namespace COM3D2.AnmCtr2.Plugin
         [HarmonyPostfix]
         public static void AddClip(Animation __instance, AnimationClip clip, string newName, int firstFrame, int lastFrame, bool addLoopFrame)
         {
-            AnmCtr2.log.LogInfo($"AddClip , {__instance == anm} , {newName}, {firstFrame}, {lastFrame}, {addLoopFrame}");
+#if DEBUG
+#endif
+            if (isLog.Value)            
+                AnmCtr2.log.LogInfo($"AddClip , {__instance == anm} , {newName}, {firstFrame}, {lastFrame}, {addLoopFrame}");
+            
             if (__instance == anm)
             {
                 MaidChg();
@@ -158,7 +167,10 @@ namespace COM3D2.AnmCtr2.Plugin
         [HarmonyPostfix]
         public static void LoadAnime(AnimationState __result, TBody __instance, string tag, AFileSystemBase fileSystem, string filename, bool additive, bool loop)
         {
-            AnmCtr2.log.LogInfo($"LoadAnime , {maid.body0 == __instance}  , {tag}, {filename}, {additive}, {loop}");
+#if DEBUG
+#endif
+            if (isLog.Value)
+                AnmCtr2.log.LogInfo($"LoadAnime , {maid.body0 == __instance}  , {tag}, {filename}, {additive}, {loop}");
             if (maid.body0 == __instance)
             {
                 MaidChg();
@@ -170,7 +182,10 @@ namespace COM3D2.AnmCtr2.Plugin
         [HarmonyPostfix]
         public static void LoadAnime(AnimationState __result, TBody __instance, string tag, byte[] byte_data, bool additive, bool loop)
         {
-            AnmCtr2.log.LogInfo($"LoadAnime , {maid.body0 == __instance} , {tag}, {byte_data.Length}, {additive}, {loop}");
+#if DEBUG
+#endif
+            if (isLog.Value)
+                AnmCtr2.log.LogInfo($"LoadAnime , {maid.body0 == __instance} , {tag}, {byte_data.Length}, {additive}, {loop}");
             if (maid.body0 == __instance)
             {
                 MaidChg();

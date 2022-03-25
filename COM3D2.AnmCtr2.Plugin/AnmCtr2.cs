@@ -52,13 +52,14 @@ namespace COM3D2.AnmCtr2.Plugin
             log = Logger;
             log.LogMessage("Awake");
             log.LogMessage("https://github.com/customordermaid3d2/COM3D2.AnmCtr2.Plugin");
+            
+            AnmCtr2Utill.init(Logger,Config);
 
             this.myWindowRect = new WindowRectUtill(Config, MyAttribute.PLAGIN_FULL_NAME, MyAttribute.PLAGIN_NAME, "AC2");
 
             MaidActiveUtill.setActiveMaidNum += setActiveMaid2;
             MaidActiveUtill.deactivateMaidNum += setActiveMaid2;
 
-            AnmCtr2Utill.init();
 
         }
 
