@@ -43,15 +43,15 @@ namespace COM3D2.AnmCtr2.Plugin
         }
 
         public static void MaidChg()
-        {          
+        {
             maid = MaidActiveUtill.GetMaid(seleted);
 
-            if (!maid || !maid.body0.m_Bones )
+            if (!maid || !maid.body0.m_Bones)
             {
                 //AnmCtr2.myLog.LogInfo("MaidChg null");
                 anm = null;
                 anmst = null;
-                anmNm =  new string[] { };
+                anmNm = new string[] { };
                 return;
             }
             //AnmCtr2.myLog.LogInfo("MaidChg set");
@@ -77,12 +77,12 @@ namespace COM3D2.AnmCtr2.Plugin
         {
             try
             {
-                if (anmNm.Length==0)
+                if (anmNm.Length == 0)
                 {
                     anmst = null;
                     return;
                 }
-                if (anmNm.Length<=seletedAnm)
+                if (anmNm.Length <= seletedAnm)
                 {
                     seletedAnm = 0;
                 }
@@ -139,9 +139,9 @@ namespace COM3D2.AnmCtr2.Plugin
         {
 #if DEBUG
 #endif
-            if (isLog.Value)            
+            if (isLog.Value)
                 AnmCtr2.log.LogInfo($"AddClip , {__instance == anm} , {newName}, {firstFrame}, {lastFrame}, {addLoopFrame}");
-            
+
             if (__instance == anm)
             {
                 MaidChg();
@@ -161,7 +161,7 @@ namespace COM3D2.AnmCtr2.Plugin
         //    }
         //}
 
-        
+
         // public AnimationState LoadAnime(string tag, AFileSystemBase fileSystem, string filename, bool additive, bool loop)
         [HarmonyPatch(typeof(TBody), "LoadAnime", typeof(string), typeof(AFileSystemBase), typeof(string), typeof(bool), typeof(bool))]
         [HarmonyPostfix]
@@ -169,11 +169,22 @@ namespace COM3D2.AnmCtr2.Plugin
         {
 #if DEBUG
 #endif
-            if (isLog.Value)
-                AnmCtr2.log.LogInfo($"LoadAnime , {maid.body0 == __instance}  , {tag}, {filename}, {additive}, {loop}");
-            if (maid.body0 == __instance)
+            try
             {
-                MaidChg();
+                if (maid == null || maid.boMAN)
+                {
+                    return;
+                }
+                if (isLog.Value)
+                    AnmCtr2.log.LogInfo($"LoadAnime1 , {maid.body0 == __instance}  , {tag}, {filename}, {additive}, {loop}");
+                if (maid.body0 == __instance)
+                {
+                    MaidChg();
+                }
+            }
+            catch (Exception e)
+            {
+                AnmCtr2.log.LogError($"LoadAnime1 {e}");
             }
         }
 
@@ -184,27 +195,38 @@ namespace COM3D2.AnmCtr2.Plugin
         {
 #if DEBUG
 #endif
-            if (isLog.Value)
-                AnmCtr2.log.LogInfo($"LoadAnime , {maid.body0 == __instance} , {tag}, {byte_data.Length}, {additive}, {loop}");
-            if (maid.body0 == __instance)
+            try
             {
-                MaidChg();
+                if (maid == null || maid.boMAN)
+                {
+                    return;
+                }
+                if (isLog.Value)
+                    AnmCtr2.log.LogInfo($"LoadAnime2 , {maid.body0 == __instance} , {tag}, {byte_data.Length}, {additive}, {loop}");
+                if (maid.body0 == __instance)
+                {
+                    MaidChg();
+                }
+            }
+            catch (Exception e)
+            {
+                AnmCtr2.log.LogError($"LoadAnime2 {e}");
             }
         }
 
         // 효과 없음
-               /*
-        [HarmonyPatch(typeof(CharacterMgr), "SetActive")]
-        [HarmonyPostfix]
-        public static void SetActive(Maid f_maid, int f_nActiveSlotNo, bool f_bMan)
-        {
-            if (f_maid !=null && f_maid == maid)
-            {
-                AnmCtr2.log.LogInfo($"SetActive , {f_maid.status.fullNameEnStyle}, {f_nActiveSlotNo}, {f_bMan}");
-                MaidChg();
-            }
-        }        
-               */
+        /*
+ [HarmonyPatch(typeof(CharacterMgr), "SetActive")]
+ [HarmonyPostfix]
+ public static void SetActive(Maid f_maid, int f_nActiveSlotNo, bool f_bMan)
+ {
+     if (f_maid !=null && f_maid == maid)
+     {
+         AnmCtr2.log.LogInfo($"SetActive , {f_maid.status.fullNameEnStyle}, {f_nActiveSlotNo}, {f_bMan}");
+         MaidChg();
+     }
+ }        
+        */
 
 
 
@@ -216,7 +238,7 @@ namespace COM3D2.AnmCtr2.Plugin
         internal static void Play()
         {
             anmst.speed = 1;
-            
+
         }
     }
 }
